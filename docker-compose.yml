@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+    crud-api-rest:
+        image: node:18-alpine3.15
+        container_name: crud-api-container
+        command: ["node", "server.js"]
+        environment:
+            - DB_USER=gabrielcheng
+            - DB_PASSWORD=Mongo%40M0NG0MYP455
+        ports:
+            - "5000:3000"
+        build: .
