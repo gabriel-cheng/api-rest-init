@@ -1,21 +1,18 @@
 // Configurações iniciais
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 3000;
 const mongoose = require('mongoose');
-const router = require('./routes/personRoutes');
 
-const personRoutes = require('./models/Person');
-app.use('/person', personRoutes);
-
-// mongodb+srv://gabrielcheng:<Mongo@M0NG0MYP455>@apicluster.ofx8mm4.mongodb.net/?retryWrites=true&w=majority
 
 // Leitura de JSON / middlewares
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Rotas da API
-
+const personRoutes = require('./routes/personRoutes');
+app.use('/person', personRoutes);
 
 // Rota inicial(endpoint)
 app.get('/', (require, response) => {
@@ -23,8 +20,11 @@ app.get('/', (require, response) => {
 });
 
 // Portas
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+
 mongoose.connect(
-    'mongodb+srv://gabrielcheng:Mongo%40M0NG0MYP455@apicluster.ofx8mm4.mongodb.net/?retryWrites=true&'
+    `mongodb+srv://${DB_USER}:${DB_PASSWORD}@apicluster.ofx8mm4.mongodb.net/?retryWrites=true&`
 ).then(() => {
     console.log('Conectado ao MongoDB!');
     app.listen(port, () => {
